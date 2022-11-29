@@ -1,0 +1,30 @@
+server:
+  port: 8080
+
+eureka:
+  client:
+    registerWithEureka: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      routes:
+        - id: login-service
+          uri: lb://login-service
+          predicates:
+            - Path=/login/**
+        - id: item-service
+          uri: lb://item-service
+          predicates:
+            - Path=/items/**
+        - id: domainCatalog-service
+          uri: lb://domainCatalog-service
+          predicates:
+            - Path=/domains/**
